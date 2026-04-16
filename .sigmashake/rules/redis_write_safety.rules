@@ -6,7 +6,7 @@ rule redis-block-unsafe-patterns {
   priority 90
   severity error
   DENY write
-  IF path GLOB "**/*" AND content CONTAINS "UNSAFE_redis_PATTERN"
+  IF path GLOB "**/*" AND content CONTAINS "EVAL"
   MESSAGE "Blocked an unsafe pattern in redis. Use the recommended best practices for 2025/2026."
 }
 
@@ -14,7 +14,7 @@ rule redis-force-updated-api {
   enabled true
   priority 80
   severity warning
-  ASK write
-  IF path GLOB "**/*" AND content CONTAINS "OLD_redis_API"
+  LOG write
+  IF path GLOB "**/*" AND content CONTAINS "KEYS *"
   MESSAGE "You are using an outdated API for redis. Please upgrade to the newer API."
 }
